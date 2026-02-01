@@ -17,7 +17,7 @@ export default function PrivateLayout({ children }) {
             items: [
                 
                 { label: "Agencias", href: "/#", icon: "fa-regular fa-building-columns" },
-                { label: "Usuarios", href: "/#", icon: "fa-solid fa-users" },
+                { label: "Usuarios", href: "/usuario", icon: "fa-solid fa-users" },
             ],
         }
 

@@ -1,18 +1,58 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este apartado seria el siguiente proyecto, que se dedicara a la lado visual del cliente y para los trabajadores de la empresa.
 
-Currently, two official plugins are available:
+por lo que se recomienda tener las siguientes tecnologias:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- node
+- npm
+- git
 
-## React Compiler
+se implementara frameworks de CSS
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- TailwindCss
+- DaisyUI
 
-Note: This will impact Vite dev & build performances.
+---
 
-## Expanding the ESLint configuration
+## Crear un proyecto
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+se iniciara creando un proyecto:
+
+se puede colocar un . para que se quede donde este el proyecto
+
+```bash
+npm create vite@latest mi-proyecto-react
+```
+
+luego se debe de instalar paquetes 
+
+```bash
+npm i
+```
+
+y listo ya se puede ejecutar el proyecto 
+
+```bash
+npm run dev
+```
+
+--- 
+
+## para la implementación de tailwind y daisy 
+
+para este proceso se guío con la documentación de cada tecnologias
+
+Documentación:
+
+[Tailwind Css](https://tailwindcss.com/docs/installation/using-vite)
+
+[DaisyUI](https://daisyui.com/docs/install/)
+
+
+esta es un libreria que nos ayudara a navegar por rutas en React
+
+```
+npm install react-router-dom
+
+```

@@ -56,3 +56,8 @@ esta es un libreria que nos ayudara a navegar por rutas en React
 npm install react-router-dom
 
 ```
+
+```bash
+npm install axios
+
+```

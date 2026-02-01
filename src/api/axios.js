@@ -1,11 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import "./index.css";
-import AppRoute from "./routers/approute.jsx";
+import axios from "axios";
 
+const api = axios.create({
+  baseURL: "http://127.0.0.1:8000/api", //cambia según la URL de tu backend Laravel
+});
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-     <AppRoute />
-  </StrictMode>,
-)
+// Si quieres que cada request mande el token automáticamente:
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export default api;

@@ -226,7 +226,7 @@ export default function CreateUsuarioForm({
             </div>
 
             {/* Imagen */}
-            {/* <div className="form-control mt-4">
+            <div className="form-control mt-4">
                 <div className="flex items-center gap-3">
                     <input
                         type="file"
@@ -239,7 +239,7 @@ export default function CreateUsuarioForm({
                 <span className="label-text-alt text-gray-400 mt-1 text-xs">
                     Formato recomendado: JPG / PNG — Máximo 5MB
                 </span>
-            </div> */}
+            </div>
         </div>
     );
 }

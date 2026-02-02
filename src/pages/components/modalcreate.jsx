@@ -14,15 +14,21 @@ export default function ModalCreate({
   return (
     <div className="modal modal-open" id={modalId}>
       <div
-        className="modal-box relative"
-        onClick={(e) => e.stopPropagation()} // evita cerrar al click dentro del modal
+        className="
+          modal-box relative
+          bg-white/10 backdrop-blur-xl
+          border border-white/20
+          shadow-2xl
+          text-base-content
+        "
+        onClick={(e) => e.stopPropagation()}
       >
         <h3 className="text-lg font-bold mb-4 text-left">{title}</h3>
 
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            onSubmit && onSubmit(e); // el padre maneja el submit
+            onSubmit && onSubmit(e);
           }}
         >
           {children}
@@ -38,11 +44,15 @@ export default function ModalCreate({
         </form>
       </div>
 
-      {/* Fondo semitransparente */}
+      {/* Fondo tipo glass (blur + oscurecido) */}
       <div
-        className="modal-backdrop fixed inset-0 bg-black bg-opacity-30"
-        onClick={onClose} // clic fuera cierra el modal
-      ></div>
+        className="
+          modal-backdrop fixed inset-0
+          bg-black/40
+          backdrop-blur-md
+        "
+        onClick={onClose}
+      />
     </div>
   );
 }

@@ -61,3 +61,8 @@ npm install react-router-dom
 npm install axios
 
 ```
+
+```bash
+npm i @react-google-maps/api
+
+```

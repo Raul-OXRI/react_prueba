@@ -178,7 +178,7 @@ const Layout = ({ children, sections = [], onLogout, user: propUser }) => {
                             {/* Título + nombre usuario */}
                             <div className="text-white">
                                 <a href="/dashboard" className="text-2xl font-bold">
-                                    Diocesis de la Verapaz
+                                    Cooperativa Micope
                                 </a>
                                 <div>
                                     Bienvenido:{" "}

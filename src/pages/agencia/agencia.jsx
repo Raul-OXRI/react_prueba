@@ -15,7 +15,7 @@ import ModalCreate from "../components/modalcreate.jsx";
 import CreateAgenciaForm from "./createagenciaform.jsx";
 import UpdateAgenciaForm from "./updateagenciaform.jsx";
 
-// ✅ igual que Usuario: data inicial
+// igual que Usuario: data inicial
 const initialAgenciaForm = {
   name: "",
   serie_agencia: "",
@@ -40,7 +40,7 @@ export default function Agencia() {
   const [showUpdateModal, setShowUpdateModal] = React.useState(false);
   const [editingAgenciaId, setEditingAgenciaId] = React.useState(null);
 
-  // ✅ formulario controlado (como Usuario)
+  // formulario controlado (como Usuario)
   const [formData, setFormData] = React.useState(initialAgenciaForm);
   const [imgFile, setImgFile] = React.useState(null);
 
@@ -82,7 +82,7 @@ export default function Agencia() {
     }
   };
 
-  // ✅ igual que Usuario: handleChange
+  // igual que Usuario: handleChange
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setFormData((p) => ({ ...p, [name]: value }));
@@ -111,7 +111,7 @@ export default function Agencia() {
       codigo_agencia: agencia?.codigo_agencia ?? "",
       address: agencia?.address ?? "",
       phone: agencia?.phone ?? "",
-      // 🔥 importante: el back valida cod_municipio
+      // importante: el back valida cod_municipio
       cod_municipio:
         agencia?.cod_municipio ??
         agencia?.municipio_id ??
@@ -133,7 +133,7 @@ export default function Agencia() {
     setEditingAgenciaId(null);
   };
 
-  // ✅ submit crear (ModalCreate lo dispara)
+  // submit crear (ModalCreate lo dispara)
   const handleSubmitCreate = async () => {
     try {
       setLoading(true);
@@ -151,7 +151,7 @@ export default function Agencia() {
     }
   };
 
-  // ✅ submit update (si tu service updateAgencia lo soporta)
+  // submit update (si tu service updateAgencia lo soporta)
   const handleSubmitUpdate = async () => {
     try {
       setLoading(true);

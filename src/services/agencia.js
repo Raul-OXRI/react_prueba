@@ -34,7 +34,6 @@ export async function updateAgencia(id, payload) {
         codigo_agencia: payload.codigo_agencia ?? null,
         address: payload.address ?? null,
         phone: payload.phone ?? null,
-        status: payload.status ?? null,
         longitud: payload.longitud ?? null,
         latitud: payload.latitud ?? null,
         cod_municipio: payload.cod_municipio ?? null,

@@ -1,5 +1,6 @@
 import React from "react";
-import { updatePass } from "../../services/users";
+import { updatePass, updateUserImg } from "../../services/users";
+import Alert from "../components/alert.jsx"
 
 const Layout = ({ children, sections = [], onLogout, user: propUser }) => {
     const [user, setUser] = React.useState(propUser || (() => {
@@ -269,11 +270,9 @@ const Layout = ({ children, sections = [], onLogout, user: propUser }) => {
                                     className="file-input file-input-bordered w-full"
                                     onChange={(e) => setSelectedImg(e.target.files?.[0] || null)}
                                 />
-                                {uploadError && (
-                                    <div className="alert alert-error">
-                                        <span>{uploadError}</span>
-                                    </div>
-                                )}
+
+                                {uploadError && <Alert message={uploadError} />}
+
                             </div>
                             <span className="label-text-alt text-gray-400 mt-1 text-xs">
                                 Formato recomendado: JPG / PNG — Máximo 5MB
@@ -332,11 +331,7 @@ const Layout = ({ children, sections = [], onLogout, user: propUser }) => {
                                     />
                                 </div>
 
-                                {passError && (
-                                    <div className="alert alert-error">
-                                        <span>{passError}</span>
-                                    </div>
-                                )}
+                                {passError && <Alert message={passError} />}
 
                                 {passOk && (
                                     <div className="alert alert-success">

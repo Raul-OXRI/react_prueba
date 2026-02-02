@@ -68,13 +68,13 @@ export async function activateUser(id) {
     }
 }
 
-// export async function updateUserImg(userId, file) {
-//   const fd = new FormData();
-//   fd.append("user_img", file);
+export async function updateUserImg(userId, file) {
+  const fd = new FormData();
+  fd.append("user_img", file);
 
-//   const response = await api.post(`/user/updateimg/${userId}`, fd);
-//   return response.data.user;
-// }
+  const response = await api.post(`/user/updateperfil/${userId}`, fd);
+  return response.data.user;
+}
 
 export async function fetchUsers(status = "active", name = "") {
     try {

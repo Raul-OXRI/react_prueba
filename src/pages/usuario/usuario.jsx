@@ -7,6 +7,7 @@ import {
   deactivateUser,
   activateUser,
 } from "../../services/users.js";
+import { fetchAgencias } from "../../services/agencia.js";
 // Componentes
 import UsuarioHeader from "./usuarioheader.jsx";
 import UsuarioSearch from "./usuariosearch.jsx";
@@ -28,18 +29,23 @@ const initialFormData = {
 };
 
 export default function Usuario() {
-  // Estados
+  // Estados de usuario
   const [users, setUsers] = React.useState([]);
   const [search, setSearch] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const [statusTab, setStatusTab] = React.useState("active");
+  //modales
   const [showCreateModal, setShowCreateModal] = React.useState(false);
   const [showUpdateModal, setShowUpdateModal] = React.useState(false);
   const [editingUserId, setEditingUserId] = React.useState(null);
+  //formulario
   const [formData, setFormData] = React.useState(initialFormData);
   const [userFile, setUserFile] = React.useState(null);
-
+  //estaod de agencias
+  const [agencias, setAgencias] = React.useState([]);
+  const [agenciaFilter, setAgenciaFilter] = React.useState("");
+  const [agenciaLoading, setAgenciaLoading] = React.useState(false);
   // Cargar usuarios
   const loadUsers = async (term = "", status = statusTab) => {
     try {
@@ -57,6 +63,36 @@ export default function Usuario() {
   // Cargar usuarios al montar el componente y al cambiar la pestaña o búsqueda
   useEffect(() => { loadUsers(search, statusTab); }, [statusTab, search]);
 
+  // Cargar agencias activas (y buscar por nombre)
+  const loadAgencias = async (term = "") => {
+    try {
+      setAgenciaLoading(true);
+      const data = await fetchAgencias(term);
+      setAgencias(data); // idealmente ya vienen activas desde tu endpoint /agencia
+    } catch (e) {
+      console.error("Error al cargar agencias:", e);
+      setAgencias([]);
+    } finally {
+      setAgenciaLoading(false);
+    }
+  };
+
+  const handleAgenciaFilterChange = (value) => {
+    setAgenciaFilter(value);
+    loadAgencias(value); // busca mientras escribe
+  };
+
+  const handleAgenciaSelect = (agencia) => {
+    // mostrar nombre en el input
+    setAgenciaFilter(agencia.name);
+    // guardar ID en formData
+    setFormData((prev) => ({
+      ...prev,
+      cod_agencia: agencia.id,
+    }));
+  };
+  // -------
+
   // Manejadores de eventos
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -70,6 +106,9 @@ export default function Usuario() {
   const handleOpenCreate = () => {
     setFormData(initialFormData);
     setUserFile(null);
+    setAgenciaFilter("");
+    setAgencias([]);
+    loadAgencias("");
     setShowCreateModal(true);
   };
 
@@ -78,6 +117,9 @@ export default function Usuario() {
     setEditingUserId(user.id);
     setFormData({ ...initialFormData, ...user, password: "" });
     setUserFile(null);
+    const agenciaNombre = user?.agencia?.name ?? "";
+    setAgenciaFilter(agenciaNombre);
+    loadAgencias(agenciaNombre);
     setShowUpdateModal(true);
   };
 
@@ -127,11 +169,24 @@ export default function Usuario() {
     <div className="space-y-6">
       <UsuarioHeader />
       <div className="tabs tabs-boxed w-fit">
-        <button className={`tab ${statusTab === "active" ? "tab-active" : ""}`} onClick={() => setStatusTab("active")}>Activos</button>
-        <button className={`tab ${statusTab === "inactive" ? "tab-active" : ""}`} onClick={() => setStatusTab("inactive")}>Inactivos</button>
+        <button
+          className={`tab ${statusTab === "active" ? "tab-active" : ""}`}
+          onClick={() => setStatusTab("active")}
+        >
+          Activos
+        </button>
+        <button
+          className={`tab ${statusTab === "inactive" ? "tab-active" : ""}`}
+          onClick={() => setStatusTab("inactive")}
+        >
+          Inactivos
+        </button>
       </div>
-      <UsuarioSearch search={search} onSearchChange={e => setSearch(e.target.value)} onOpenCreate={handleOpenCreate} />
-
+      <UsuarioSearch
+        search={search}
+        onSearchChange={(e) => setSearch(e.target.value)}
+        onOpenCreate={handleOpenCreate}
+      />
       <ModalCreate
         isOpen={showCreateModal || showUpdateModal}
         modalId={showCreateModal ? "modal-create-usuario" : "modal-update-usuario"}
@@ -141,17 +196,37 @@ export default function Usuario() {
         submitLable="Guardar"
       >
         {showCreateModal ? (
-          <CreateUsuarioForm formData={formData} handleChangeForm={handleFormChange} handleFileChange={handleFileChange} isEdit={false} />
+          <CreateUsuarioForm
+            formData={formData}
+            handleChangeForm={handleFormChange}
+            handleFileChange={handleFileChange}
+            isEdit={false}
+            agencias={agencias}
+            agenciaFilter={agenciaFilter}
+            onAgenciaFilterChange={handleAgenciaFilterChange}
+            onAgenciaSelect={handleAgenciaSelect}
+            agenciaLoading={agenciaLoading} // opcional si lo quieres mostrar
+          />
         ) : (
-          <UpdateUsuarioForm formData={formData} handleChangeForm={handleFormChange} handleFileChange={handleFileChange} />
+          <UpdateUsuarioForm
+            formData={formData}
+            handleChangeForm={handleFormChange}
+            handleFileChange={handleFileChange}
+            agencias={agencias}
+            agenciaFilter={agenciaFilter}
+            onAgenciaFilterChange={handleAgenciaFilterChange}
+            onAgenciaSelect={handleAgenciaSelect}
+            agenciaLoading={agenciaLoading} // opcional
+          />
         )}
       </ModalCreate>
-
       <UsuarioTable
-        users={users} loading={loading} error={error}
+        users={users}
+        loading={loading}
+        error={error}
         onEdit={handleOpenEdit}
-        onDeactivate={id => toggleUserStatus(id, "deactivate")}
-        onActivate={id => toggleUserStatus(id, "activate")}
+        onDeactivate={(id) => toggleUserStatus(id, "deactivate")}
+        onActivate={(id) => toggleUserStatus(id, "activate")}
         statusTab={statusTab}
       />
     </div>

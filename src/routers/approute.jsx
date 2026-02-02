@@ -4,6 +4,7 @@ import LandingPage from "../pages/ladingpage";
 import Login from "../pages/login";
 import Dashboard from "../pages/dashboard.jsx";
 import Usuario from "../pages/usuario/usuario.jsx";
+import Agencia from "../pages/agencia/agencia.jsx";
 import PrivateLayout from "./privatelayout.jsx";
 
 export default function AppRoute() {
@@ -20,6 +21,11 @@ export default function AppRoute() {
                 <Route path="/usuario" element={
                     <PrivateLayout>
                         <Usuario />
+                    </PrivateLayout>
+                } />
+                <Route path="/agencia" element={
+                    <PrivateLayout>
+                        <Agencia />
                     </PrivateLayout>
                 } />
 

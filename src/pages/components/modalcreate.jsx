@@ -16,7 +16,7 @@ export default function ModalCreate({
       <div
         className="
           modal-box relative
-          bg-white/10 backdrop-blur-xl
+          bg-white backdrop-blur-xl
           border border-white/20
           shadow-2xl
           text-base-content
@@ -34,11 +34,13 @@ export default function ModalCreate({
           {children}
 
           <div className="modal-action flex justify-end gap-2 mt-4">
-            <button type="submit" className="btn btn-primary text-black">
-              {submitLabel}
-            </button>
-            <button type="button" className="btn" onClick={onClose}>
+            <button type="button" className="btn btn-secondary rounded-xl" onClick={onClose}>
+              <i className="fa-sharp fa-solid fa-floppy-disk-circle-xmark text-xl"></i>
               Cerrar
+            </button>
+            <button type="submit" className="btn btn-success text-black text-white rounded-xl">
+              <i className="fa-sharp fa-solid fa-floppy-disk text-xl"></i>
+              {submitLabel}
             </button>
           </div>
         </form>
@@ -48,7 +50,7 @@ export default function ModalCreate({
       <div
         className="
           modal-backdrop fixed inset-0
-          bg-black/40
+          bg-black/30
           backdrop-blur-md
         "
         onClick={onClose}

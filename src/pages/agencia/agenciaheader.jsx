@@ -8,10 +8,10 @@ export default function AgenciaHeader() {
                     <i className="fa-sharp fa-regular fa-piggy-bank text-3xl text-white"></i>
                 </div>
                 <div>
-                    <h1 className="text-xl font-bold text-white sm:text-3xl">
+                    <h1 className="text-xl font-bold text-black sm:text-3xl">
                         Gestión de agencias
                     </h1>
-                    <p className="text-xs text-white sm:text-sm">
+                    <p className="text-xs text-black sm:text-sm">
                         Administración de agencias
                     </p>
                 </div>

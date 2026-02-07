@@ -178,28 +178,12 @@ export default function UpdateAgenciaForm({
             <i className="fa-solid fa-location-dot"></i>
             <span className="label-text ml-2">Dirección</span>
           </label>
-
-          {isLoaded ? (
-            <Autocomplete
-              onLoad={onLoadAutocomplete}
-              onPlaceChanged={onPlaceChanged}
-            >
-              <input
-                name="address"
-                className="input input-bordered rounded-xl w-full"
-                value={formData.address}
-                onChange={handleChangeForm}
-                placeholder="Buscar dirección…"
-              />
-            </Autocomplete>
-          ) : (
             <input
               name="address"
               className="input input-bordered rounded-xl w-full"
               value={formData.address}
               onChange={handleChangeForm}
             />
-          )}
         </div>
 
         {/* ======================= MUNICIPIO ======================= */}
@@ -226,7 +210,8 @@ export default function UpdateAgenciaForm({
             ))}
           </select>
         </div>
-
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {/* ======================= LONG / LAT ======================= */}
         <div className="form-control">
           <label className="label">
@@ -259,7 +244,8 @@ export default function UpdateAgenciaForm({
             }}
           />
         </div>
-
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {/* ======================= MAPA ======================= */}
         <div className="md:col-span-2">
           <div className="card bg-base-100 border border-base-200 rounded-2xl">
@@ -276,6 +262,8 @@ export default function UpdateAgenciaForm({
                     options={{
                       streetViewControl: false,
                       mapTypeControl: false,
+                      gestureHandling: "greedy",
+                      scrollwheel: true,
                     }}
                   >
                     <Marker
@@ -300,16 +288,6 @@ export default function UpdateAgenciaForm({
                   }
                 >
                   Reset
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline rounded-xl"
-                  onClick={() =>
-                    reverseGeocode(markerPos.lat, markerPos.lng)
-                  }
-                >
-                  Obtener dirección del pin
                 </button>
               </div>
             </div>

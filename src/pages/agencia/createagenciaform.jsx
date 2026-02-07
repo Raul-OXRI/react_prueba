@@ -8,7 +8,7 @@ const DEFAULT_CENTER = { lat: 14.6349, lng: -90.5069 };
 export default function CreateAgenciaForm({
   formData,
   handleChangeForm,
-  setField,                 
+  setField,
   handleFileChange,
   municipios = [],
   loadingMunicipios = false,
@@ -64,14 +64,12 @@ export default function CreateAgenciaForm({
     const lat = e.latLng.lat();
     const lng = e.latLng.lng();
     updateLatLng(lat, lng);
-    await reverseGeocode(lat, lng);
   };
 
   const handleMarkerDragEnd = async (e) => {
     const lat = e.latLng.lat();
     const lng = e.latLng.lng();
     updateLatLng(lat, lng);
-    await reverseGeocode(lat, lng);
   };
 
   const onLoadAutocomplete = (ac) => (acRef.current = ac);
@@ -98,7 +96,6 @@ export default function CreateAgenciaForm({
       </div>
     );
   }
-
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -170,31 +167,14 @@ export default function CreateAgenciaForm({
               Dirección
             </span>
           </label>
-
-          {isLoaded ? (
-            <Autocomplete onLoad={onLoadAutocomplete} onPlaceChanged={onPlaceChanged}>
-              <input
-                name="address"
-                className="input input-bordered rounded-xl w-full"
-                value={formData.address}
-                onChange={handleChangeForm}
-                placeholder="Escribe una dirección y selecciona…"
-                required
-              />
-            </Autocomplete>
-          ) : (
-            <input
-              name="address"
-              className="input input-bordered rounded-xl w-full"
-              value={formData.address}
-              onChange={handleChangeForm}
-              required
-            />
-          )}
-
-          <div className="mt-2 text-xs opacity-70">
-            Tip: click en mapa o arrastra el pin para fijar coordenadas.
-          </div>
+          <input
+            name="address"
+            className="input input-bordered rounded-xl w-full"
+            value={formData.address}
+            onChange={handleChangeForm}
+            placeholder="Escribe una dirección…"
+            required
+          />
         </div>
 
         <div className="form-control">
@@ -219,7 +199,9 @@ export default function CreateAgenciaForm({
             ))}
           </select>
         </div>
+      </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div className="form-control">
           <label className="label"><span className="label-text">Longitud</span></label>
           <input
@@ -249,6 +231,8 @@ export default function CreateAgenciaForm({
             required
           />
         </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 
         <div className="md:col-span-2">
           <div className="card bg-base-100 border border-base-200 rounded-2xl overflow-hidden">
@@ -262,7 +246,13 @@ export default function CreateAgenciaForm({
                     center={markerPos}
                     zoom={15}
                     onClick={handleMapClick}
-                    options={{ streetViewControl: false, mapTypeControl: false, fullscreenControl: true }}
+                    options={{
+                      streetViewControl: false,
+                      mapTypeControl: false,
+                      fullscreenControl: true,
+                      gestureHandling: "greedy",
+                      scrollwheel: true,
+                    }}
                   >
                     <Marker position={markerPos} draggable onDragEnd={handleMarkerDragEnd} />
                   </GoogleMap>
@@ -283,14 +273,6 @@ export default function CreateAgenciaForm({
                   }}
                 >
                   Reset
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline rounded-xl"
-                  onClick={() => reverseGeocode(markerPos.lat, markerPos.lng)}
-                >
-                  Obtener dirección del pin
                 </button>
               </div>
             </div>

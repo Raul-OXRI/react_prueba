@@ -9,6 +9,7 @@ export default function AgenciaTable({
   onDeactivate,
   onActivate,
   statusTab,
+  onImage,
 }) {
   const hasAgencias = Array.isArray(agencias) && agencias.length > 0;
 
@@ -53,6 +54,14 @@ export default function AgenciaTable({
                     <td className="text-center">
                       {statusTab === "active" && (
                         <div className="flex justify-center gap-2">
+                          <button 
+                            className="btn btn-ghost btn-lg tooltip"
+                            data-tip="Editar imagen"
+                            onClick={() => onImage && onImage(agencia)}
+                          >
+                            <i className="fa-duotone fa-solid fa-file-image text-xl text-neutral"></i>
+                          </button>
+
                           <button
                             className="btn btn-ghost btn-lg tooltip"
                             data-tip="Editar agencia"

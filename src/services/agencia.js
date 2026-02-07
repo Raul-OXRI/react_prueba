@@ -121,4 +121,11 @@ export async function fetchAgenciasby(status = "active", search = "") {
     }
 }
 
+export async function updateAgenciaImg(agenciaId, file) {
+  const fd = new FormData();
+  fd.append("img", file);
+
+  const response = await api.post(`/agencia/updateImg/${agenciaId}`, fd);
+  return response.data.agencia;
+}
 

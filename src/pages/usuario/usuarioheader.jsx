@@ -8,10 +8,10 @@ export default function UsuarioHeader() {
                     <i className="fa-solid fa-person text-3xl text-white"></i>
                 </div>
                 <div>
-                    <h1 className="text-xl font-bold text-white sm:text-3xl">
+                    <h1 className="text-xl font-bold text-black sm:text-3xl">
                         Gestión de usuarios
                     </h1>
-                    <p className="text-xs text-white sm:text-sm">
+                    <p className="text-xs text-black sm:text-sm">
                         Administración de usuarios
                     </p>
                 </div>

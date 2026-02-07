@@ -5,6 +5,7 @@ import {
   updateAgencia,
   deactivateAgencia,
   activateAgencia,
+  updateAgenciaImg,
 } from "../../services/agencia.js";
 import { fetchMunicipios } from "../../services/municipio.js";
 
@@ -14,6 +15,7 @@ import AgenciaTable from "./agenciatable.jsx";
 import ModalCreate from "../components/modalcreate.jsx";
 import CreateAgenciaForm from "./createagenciaform.jsx";
 import UpdateAgenciaForm from "./updateagenciaform.jsx";
+import ModalUploadImage from "../components/updateImg.jsx";
 
 // igual que Usuario: data inicial
 const initialAgenciaForm = {
@@ -39,6 +41,8 @@ export default function Agencia() {
   const [showCreateModal, setShowCreateModal] = React.useState(false);
   const [showUpdateModal, setShowUpdateModal] = React.useState(false);
   const [editingAgenciaId, setEditingAgenciaId] = React.useState(null);
+  const [showImgModal, setShowImgModal] = React.useState(false);
+  const [imgAgenciaId, setImgAgenciaId] = React.useState(null);
 
   // formulario controlado (como Usuario)
   const [formData, setFormData] = React.useState(initialAgenciaForm);
@@ -182,6 +186,34 @@ export default function Agencia() {
     }
   };
 
+  //abrir y cerrar modal img
+  const handleOpenImgModal = (agencia) => {
+    setImgAgenciaId(agencia?.id);
+    setShowImgModal(true);
+  };
+
+  const handleCloseImgModal = () => {
+    setShowImgModal(false);
+    setImgAgenciaId(null);
+  };
+
+  // submit imagen
+  const handleSubmitImg = async (formData) => {
+    try {
+      setLoading(true);
+      await updateAgenciaImg(imgAgenciaId, formData);
+      handleCloseImgModal();
+      await loadAgencias(search, statusTab);
+
+    } catch (e) {
+      console.error("Error updateAgenciaImg:", e?.response || e);
+      alert("Error al actualizar la imagen de la agencia.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+
   return (
     <div className="space-y-6">
       <AgenciaHeader />
@@ -236,11 +268,22 @@ export default function Agencia() {
         )}
       </ModalCreate>
 
+      <ModalUploadImage
+        isOpen={showImgModal}
+        modalId="modal-upload-img-agencia"
+        title="Actualizar imagen de agencia"
+        fieldName="img"
+        onSubmit={handleSubmitImg}
+        onClose={handleCloseImgModal}
+      />
+
+
       <AgenciaTable
         agencias={agencias}
         loading={loading}
         error={error}
         onEdit={handleOpenEdit}
+        onImage={handleOpenImgModal}
         onDeactivate={(id) => toggleAgenciaStatus(id, "deactivate")}
         onActivate={(id) => toggleAgenciaStatus(id, "activate")}
         statusTab={statusTab}

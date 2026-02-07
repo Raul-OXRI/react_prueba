@@ -21,7 +21,7 @@ export default function AgenciaSearch({ search, onSearchChange, onOpenCreate }) 
                     </div>
                     <div className="flex gap-3 w-full lg:w-auto">
                         <button
-                            className="btn rounded-xl flex-1 lg:flex-none gap-2 text-black font-medium normal-case bg-primary hover:bg-lime-500 border-0 shadow-lg"
+                            className="btn btn-outline btn-primary rounded-xl flex-1 lg:flex-none gap-2 font-medium normal-case shadow-lg"
                             type="button"
                             onClick={onOpenCreate}
                         >

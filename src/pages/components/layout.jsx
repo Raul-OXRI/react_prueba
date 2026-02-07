@@ -1,6 +1,7 @@
 import React from "react";
 import { updatePass, updateUserImg } from "../../services/users";
 import Alert from "../components/alert.jsx"
+import ModalUpdateImg from "./updateImg.jsx";
 
 const Layout = ({ children, sections = [], onLogout, user: propUser }) => {
     const [user, setUser] = React.useState(propUser || (() => {
@@ -12,9 +13,7 @@ const Layout = ({ children, sections = [], onLogout, user: propUser }) => {
     const [openUserMenu, setOpenUserMenu] = React.useState(false);
     const [imgError, setImgError] = React.useState(false);
 
-    // modal subir imagen
     const [openImgModal, setOpenImgModal] = React.useState(false);
-    const [selectedImg, setSelectedImg] = React.useState(null);
     const [uploading, setUploading] = React.useState(false);
     const [uploadError, setUploadError] = React.useState("");
 
@@ -47,13 +46,12 @@ const Layout = ({ children, sections = [], onLogout, user: propUser }) => {
 
     const handleOpenChangePhoto = () => {
         setUploadError("");
-        setSelectedImg(null);
         setOpenImgModal(true);
         setOpenUserMenu(false);
     };
 
-    const handleUploadPhoto = async () => {
-        if (!selectedImg) return;
+    const handleSubmitUserImg = async (file) => {
+        if (!file) return;
 
         if (!user?.id) {
             setUploadError("No se encontró el id del usuario.");
@@ -64,12 +62,13 @@ const Layout = ({ children, sections = [], onLogout, user: propUser }) => {
             setUploading(true);
             setUploadError("");
 
-            const updatedUser = await updateUserImg(user.id, selectedImg);
+            // tu service (según tu import) recibe (id, file)
+            const updatedUser = await updateUserImg(user.id, file);
+
             setUser(updatedUser);
             localStorage.setItem("user", JSON.stringify(updatedUser));
 
             setOpenImgModal(false);
-            setSelectedImg(null);
         } catch (e) {
             console.error(e);
             setUploadError(e?.response?.data?.message || "Error subiendo la imagen.");
@@ -77,6 +76,7 @@ const Layout = ({ children, sections = [], onLogout, user: propUser }) => {
             setUploading(false);
         }
     };
+
 
     const handleOpenChangePassword = () => {
         setPassError("");
@@ -257,46 +257,16 @@ const Layout = ({ children, sections = [], onLogout, user: propUser }) => {
             {/* MAIN */}
             <main className="flex-grow container mx-auto px-4 py-6">
                 {children}
-                {/* MODAL: CAMBIAR FOTO */}
-                {openImgModal && (
-                    <dialog open className="modal">
-                        <div className="modal-box">
-                            <h3 className="font-bold text-lg">Cambiar foto de perfil</h3>
-
-                            <div className="mt-4 space-y-3">
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    className="file-input file-input-bordered w-full"
-                                    onChange={(e) => setSelectedImg(e.target.files?.[0] || null)}
-                                />
-
-                                {uploadError && <Alert message={uploadError} />}
-
-                            </div>
-                            <span className="label-text-alt text-gray-400 mt-1 text-xs">
-                                Formato recomendado: JPG / PNG — Máximo 5MB
-                            </span>
-                            <div className="modal-action">
-                                <button className="btn" onClick={() => setOpenImgModal(false)} disabled={uploading}>
-                                    Cancelar
-                                </button>
-
-                                <button
-                                    className="btn btn-primary text-black"
-                                    onClick={handleUploadPhoto}
-                                    disabled={!selectedImg || uploading}
-                                >
-                                    {uploading ? "Subiendo..." : "Guardar"}
-                                </button>
-                            </div>
-                        </div>
-
-                        <form method="dialog" className="modal-backdrop">
-                            <button onClick={() => setOpenImgModal(false)}>close</button>
-                        </form>
-                    </dialog>
-                )}
+                <ModalUpdateImg
+                    isOpen={openImgModal}
+                    modalId="modal-user-img"
+                    title="Cambiar foto de perfil"
+                    submitLabel={uploading ? "Subiendo..." : "Guardar"}
+                    loading={uploading}
+                    error={uploadError}
+                    onClose={() => setOpenImgModal(false)}
+                    onSubmit={handleSubmitUserImg}
+                />
 
                 {/* MODAL: CAMBIAR CONTRASEÑA */}
                 {openPassModal && (
